@@ -62,7 +62,7 @@
         }
 	#nodeInfo.fullScreen {
 	    //right: 800px;
-	    
+
 	}
         .dark-grey #nodeInfo {
             background-color: #2a2a2a;
@@ -200,7 +200,7 @@
         }
         #colorDropdown .theme-option:hover {
             border-color: #666;
-        }    
+        }
 
 	@media only screen and (max-width: 767px) {
 	  .hide-on-mobile {
@@ -225,7 +225,7 @@
 </style>
 </head>
 <body class="dark-grey">
-	
+
 	<!--div class="popup-container">
 	  <div class="popup-text">Server costs exceeded due to very high traffic. You'll have to come back tomorrow. Sorry!</div>
 	</div-->
@@ -265,7 +265,7 @@
     <div id="treeChart"></div>
     </div>
 
-	<div style="position: fixed; bottom: 22px; left: 22px; font-size: 1.5em; height: 22px;"><!--a href="mailto: pierre.treeofknowledge@gmail.com" style="width: 120px;">Contact</a--> --- 
+	<div style="position: fixed; bottom: 22px; left: 22px; font-size: 1.5em; height: 22px;"><!--a href="mailto: pierre.treeofknowledge@gmail.com" style="width: 120px;">Contact</a--> ---
 	<a href="https://www.paypal.com/donate/?hosted_button_id=HJKHW7XNYVCZQ" style="font-size: 1em;"></a><span style="font-size: 1.2em; cursor:pointer;" title="Sorry guys but my AI key (OpenAI) is out of funds regularly. I'm only a student and so my money is very limited, and the server is costing a lot. I'm sorry but I didn't expect to have so much traffic. I hope some heroes will rise up and help me keep the tree free!"></span>
 	</div>
 
@@ -390,7 +390,7 @@
             nodeInfo.classList.toggle('expanded');
             collapseButton.textContent = nodeInfo.classList.contains('expanded') ? '>' : '<';
             collapseButton.style.right = nodeInfo.classList.contains('expanded') ? nodeInfo.offsetWidth + 'px' : '10px';
-            
+
             setTimeout(() => {
                 updateChartSize();
             }, 100);
