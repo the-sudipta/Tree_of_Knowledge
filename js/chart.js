@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
         nodeInfoContent.innerHTML = marked.parse(`# ${rootNode.name}\n\nPath: ${path.join(' > ')}\n\nLoading description...`);
 
         try {
-            const response = await fetch('/describe-node', {
+            const response = await fetch('https://tree-of-knowledge.org/describe-node', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ nodeName: rootNode.name, path: path, treeLang: treeLang, keyInp: treeKey }),
@@ -222,40 +222,31 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    document.getElementById('generateTree').addEventListener('click', function() {
-        var startNode = document.getElementById('startNode').value;
-        data = generateInitialTree(startNode);
-        updateChart();
+    // Listen for startNode element event
+    var element = document.getElementById('startNode');
+    if (element) {
+        element.addEventListener('click', function() {
+            var startNode = document.getElementById('startNode').value;
+            data = generateInitialTree(startNode);
+            updateChart();
 
-        setTimeout(function() {
-            if (data && data.length > 0) {
-                processRootNode(data[0]);
-            }
-        }, 800);
-    });
-
-    let currentAbortController = null;
+            setTimeout(function() {
+                if (data && data.length > 0) {
+                    processRootNode(data[0]);
+                }
+            }, 800);
+        });
+    } else {
+        console.error('Element with id "startNode" not found.');
+    }
 
     myChart.on('click', async function(params) {
         if (params.componentType === 'series' && params.seriesType === 'tree') {
             const nodeId = params.data.id;
             const nodeName = params.data.name;
 
-            if (currentAbortController) {
-                currentAbortController.abort();
-            }
-
-            currentAbortController = new AbortController();
-            const { signal } = currentAbortController;
-
-            try {
-                const rootNode = findNodeById(data, nodeId);
-                await processRootNode(rootNode, signal);
-            } catch (error) {
-                if (error.name !== 'AbortError') {
-                    console.error('Error processing root node:', error);
-                }
-            }
+            const rootNode = findNodeById(data, nodeId);
+            await processRootNode(rootNode);
         }
     });
 
