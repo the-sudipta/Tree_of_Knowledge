@@ -222,31 +222,40 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Listen for startNode element event
-    var element = document.getElementById('startNode');
-    if (element) {
-        element.addEventListener('click', function() {
-            var startNode = document.getElementById('startNode').value;
-            data = generateInitialTree(startNode);
-            updateChart();
+    document.getElementById('generateTree').addEventListener('click', function() {
+        var startNode = document.getElementById('startNode').value;
+        data = generateInitialTree(startNode);
+        updateChart();
 
-            setTimeout(function() {
-                if (data && data.length > 0) {
-                    processRootNode(data[0]);
-                }
-            }, 800);
-        });
-    } else {
-        console.error('Element with id "startNode" not found.');
-    }
+        setTimeout(function() {
+            if (data && data.length > 0) {
+                processRootNode(data[0]);
+            }
+        }, 800);
+    });
+
+    let currentAbortController = null;
 
     myChart.on('click', async function(params) {
         if (params.componentType === 'series' && params.seriesType === 'tree') {
             const nodeId = params.data.id;
             const nodeName = params.data.name;
 
-            const rootNode = findNodeById(data, nodeId);
-            await processRootNode(rootNode);
+            if (currentAbortController) {
+                currentAbortController.abort();
+            }
+
+            currentAbortController = new AbortController();
+            const { signal } = currentAbortController;
+
+            try {
+                const rootNode = findNodeById(data, nodeId);
+                await processRootNode(rootNode, signal);
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    console.error('Error processing root node:', error);
+                }
+            }
         }
     });
 
