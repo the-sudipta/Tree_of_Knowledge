@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var treeKey = document.getElementById("keyInput").value;
 
         try {
-            const response = await fetch('/generate-nodes', {
+            const response = await fetch('https://tree-of-knowledge.org/generate-nodes', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ nodeName: rootNode.name, path: [rootNode.name], treeLang: treeLang, keyInp: treeKey }),
